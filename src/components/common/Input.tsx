@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const InputBase = styled.input`
+export const Input = styled.input`
   width: 737px;
   height: auto;
   min-height: 92px;

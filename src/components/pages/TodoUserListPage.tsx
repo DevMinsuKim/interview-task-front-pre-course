@@ -1,11 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 import { TitleH1 } from "../common/Title";
-import { InputBase } from "../common/Input";
+import { Input } from "../common/Input";
 import { Tabs } from "../common/Tabs";
 import Spacing from "../common/Spacing";
-import { useAddTask } from "../../hooks/useAddTask";
+import { Task, useTaskManager } from "../../hooks/useTaskManager";
 
 const Container = styled.div`
   display: flex;
@@ -27,21 +27,15 @@ const Section = styled.section`
     0px 0px 6px 0px var(--blackAlpha50);
 `;
 
-export interface Tab {
-  title: string;
-  content: string[];
-}
-
-const initTabData: Tab[] = [
-  { title: "All", content: [] },
-  { title: "To Do", content: [] },
-  { title: "Done", content: [] },
-];
+const initTasks: Task[] = [];
 
 const TodoUserListPage = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const { tabData, inputValue, setInputValue, addTask } =
-    useAddTask(initTabData);
+  const { tasks, inputValue, setInputValue, addTask, deleteTask, doneTask } =
+    useTaskManager(initTasks);
+
+  const allTasks = tasks;
+  const todoTasks = tasks.filter((task) => task.status === "To Do");
+  const doneTasks = tasks.filter((task) => task.status === "Done");
 
   return (
     <Container>
@@ -51,7 +45,7 @@ const TodoUserListPage = () => {
 
       <Spacing size={64} />
 
-      <InputBase
+      <Input
         placeholder="할 일을 입력해 주세요"
         type="text"
         value={inputValue}
@@ -65,9 +59,14 @@ const TodoUserListPage = () => {
 
       <Section>
         <Tabs
-          tabs={tabData}
-          activeIndex={activeIndex}
-          onTabClick={setActiveIndex}
+          tabs={[
+            { title: "All", content: allTasks },
+            { title: "To Do", content: todoTasks },
+            { title: "Done", content: doneTasks },
+          ]}
+          initIndex={0}
+          onTabDelete={deleteTask}
+          onTabCheck={doneTask}
         />
       </Section>
     </Container>

@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
+import CheckIcon from "../../../public/assets/icons/Check.svg";
 import CloseIcon from "../../../public/assets/icons/Close.svg";
 import Spacing from "./Spacing";
+import { Task } from "../../hooks/useTaskManager";
 
 const Container = styled.div`
   display: flex;
@@ -50,7 +52,11 @@ const TabPanelRow = styled.li`
   padding: 32px 16px 32px 16px;
 `;
 
-const TabPanelButton = styled.button`
+const TabPanelCheckBtn = styled.button<{ active: boolean }>`
+  background-color: ${({ active }) => (active ? "#2182F3" : "transparent")};
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 32px;
   height: 32px;
   border: 1px solid;
@@ -58,26 +64,43 @@ const TabPanelButton = styled.button`
   border-color: #e5e5e5;
 `;
 
-const TabPanelText = styled.p`
+const TabPanelCheckWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: #ffffff;
+`;
+
+const TabPanelText = styled.p<{ active: boolean }>`
+  color: ${({ active }) => (active ? "#868686" : "#000000")};
   font-size: 20px;
   line-height: 28px;
   flex-grow: 1;
 `;
 
-const TabPanelImage = styled(CloseIcon)`
+const TabPanelCloseBtn = styled.button`
   width: 24px;
   height: 24px;
   color: #b9b9b9;
-  cursor: pointer;
 `;
 
 interface TabsProps {
-  tabs: { title: string; content: string[] }[];
-  activeIndex: number;
-  onTabClick: (index: number) => void;
+  tabs: { title: string; content: Task[] }[];
+  initIndex: number;
+  onTabDelete: (id: string) => void;
+  onTabCheck: (id: string) => void;
 }
 
-export const Tabs = ({ tabs, activeIndex, onTabClick }: TabsProps) => {
+export const Tabs = ({
+  tabs,
+  initIndex,
+  onTabDelete,
+  onTabCheck,
+}: TabsProps) => {
+  const [activeIndex, setActiveIndex] = useState(initIndex || 0);
+
   return (
     <Container>
       <TabContainer>
@@ -85,7 +108,7 @@ export const Tabs = ({ tabs, activeIndex, onTabClick }: TabsProps) => {
           <li key={tab.title}>
             <TabButton
               active={index === activeIndex}
-              onClick={() => onTabClick(index)}
+              onClick={() => setActiveIndex(index)}
             >
               {tab.title}
             </TabButton>
@@ -100,9 +123,22 @@ export const Tabs = ({ tabs, activeIndex, onTabClick }: TabsProps) => {
       <TabPanelContainer>
         {tabs[activeIndex].content.map((content, index) => (
           <TabPanelRow key={index}>
-            <TabPanelButton />
-            <TabPanelText>{content}</TabPanelText>
-            <TabPanelImage />
+            <TabPanelCheckBtn
+              onClick={() => onTabCheck(content.id)}
+              active={content.status === "Done"}
+            >
+              {content.status === "Done" && (
+                <TabPanelCheckWrapper>
+                  <CheckIcon />
+                </TabPanelCheckWrapper>
+              )}
+            </TabPanelCheckBtn>
+            <TabPanelText active={content.status === "Done"}>
+              {content.content}
+            </TabPanelText>
+            <TabPanelCloseBtn onClick={() => onTabDelete(content.id)}>
+              <CloseIcon />
+            </TabPanelCloseBtn>
           </TabPanelRow>
         ))}
       </TabPanelContainer>
