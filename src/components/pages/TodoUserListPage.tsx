@@ -5,12 +5,13 @@ import { TitleH1 } from "../common/Title";
 import { InputBase } from "../common/Input";
 import { Tabs } from "../common/Tabs";
 import Spacing from "../common/Spacing";
+import { useAddTask } from "../../hooks/useAddTask";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
+  min-height: 100vh;
   background-color: #f6f6f6;
 `;
 
@@ -26,26 +27,42 @@ const Section = styled.section`
     0px 0px 6px 0px var(--blackAlpha50);
 `;
 
-interface Props {}
+export interface Tab {
+  title: string;
+  content: string[];
+}
 
-const TodoUserListPage = ({}: Props) => {
+const initTabData: Tab[] = [
+  { title: "All", content: [] },
+  { title: "To Do", content: [] },
+  { title: "Done", content: [] },
+];
+
+const TodoUserListPage = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [tabData, setTabData] = useState([
-    {
-      title: "All",
-      content: ["1", "2", "3", "4"],
-    },
-    { title: "To Do", content: ["test2", "테스트 진행 중..."] },
-    { title: "Done", content: ["test3"] },
-  ]);
+  const { tabData, inputValue, setInputValue, addTask } =
+    useAddTask(initTabData);
 
   return (
     <Container>
       <Spacing size={128} />
+
       <TitleH1>To Do List</TitleH1>
+
       <Spacing size={64} />
-      <InputBase placeholder="할 일을 입력해 주세요" />
+
+      <InputBase
+        placeholder="할 일을 입력해 주세요"
+        type="text"
+        value={inputValue}
+        onChange={(e) => {
+          setInputValue(e.target.value);
+        }}
+        onKeyDown={addTask}
+      />
+
       <Spacing size={32} />
+
       <Section>
         <Tabs
           tabs={tabData}
