@@ -6,7 +6,7 @@
     "dev": "next dev -p 3000",
     "build": "yarn test && next build",
     "start": "next start",
-    "test": "env NODE_ENV=test jest -c=\"jest.config.ts\" --coverage=false --transformIgnorePatterns \"node_modules/?!(@myfair/common)/\""
+    "test": "cross-env NODE_ENV=test jest -c=\"jest.config.ts\" --coverage=false --transformIgnorePatterns \"node_modules/?!(@myfair/common)/\""
   },
   "dependencies": {
     "@emotion/core": "^11.0.0",
@@ -28,6 +28,8 @@
     "@types/react-dom": "^18.0.27",
     "@types/uuid": "^10.0.0",
     "babel-jest": "^29.4.1",
+    "cross-env": "^7.0.3",
+    "ts-node": "^10.9.2",
     "typescript": "^5.1.6"
   }
 }
