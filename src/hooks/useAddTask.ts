@@ -9,10 +9,17 @@ export const useAddTask = (TabData: Tab[]) => {
     if (e.key === "Enter") {
       setTabData((prevTabData) => {
         const updatedTabData = [...prevTabData];
+
         updatedTabData[0] = {
           ...updatedTabData[0],
           content: [...updatedTabData[0].content, inputValue],
         };
+
+        updatedTabData[1] = {
+          ...updatedTabData[1],
+          content: [...updatedTabData[1].content, inputValue],
+        };
+
         return updatedTabData;
       });
       setInputValue("");
