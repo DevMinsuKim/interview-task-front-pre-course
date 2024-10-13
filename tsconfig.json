@@ -1,14 +1,14 @@
 {
   "include": [
+    "svgr.d.ts",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "next.config.mjs",
+    "__mocks__/svg.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "**/*.test.ts?(x)"
-  ],
+  "exclude": ["node_modules", "**/*.test.ts?(x)"],
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "Node",
@@ -20,11 +20,7 @@
     "noImplicitAny": true,
     "strict": true,
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
