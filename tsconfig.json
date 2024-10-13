@@ -5,7 +5,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "next.config.mjs"
+    "next.config.mjs",
+    "__mocks__/svg.ts"
   ],
   "exclude": ["node_modules", "**/*.test.ts?(x)"],
   "compilerOptions": {

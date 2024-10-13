@@ -7,8 +7,8 @@ export interface Task {
   status: "To Do" | "Done";
 }
 
-export const useTaskManager = (iniTasks: Task[]) => {
-  const [tasks, setTasks] = useState<Task[]>(iniTasks);
+export const useTaskManager = (initTasks: Task[]) => {
+  const [tasks, setTasks] = useState<Task[]>(initTasks);
   const [inputValue, setInputValue] = useState("");
 
   const addTask = (e: React.KeyboardEvent<HTMLInputElement>) => {

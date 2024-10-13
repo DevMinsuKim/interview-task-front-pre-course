@@ -136,7 +136,10 @@ export const Tabs = ({
             <TabPanelText active={content.status === "Done"}>
               {content.content}
             </TabPanelText>
-            <TabPanelCloseBtn onClick={() => onTabDelete(content.id)}>
+            <TabPanelCloseBtn
+              onClick={() => onTabDelete(content.id)}
+              aria-label="delete"
+            >
               <CloseIcon />
             </TabPanelCloseBtn>
           </TabPanelRow>
